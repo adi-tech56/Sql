@@ -1,0 +1,31 @@
+CREATE TABLE user_list (id SERIAL PRIMARY KEY,name VARCHAR(250) NOT NULL,phone_no VARCHAR(12) ,address VARCHAR(250),email_id VARCHAR(250) NOT NULL) ;
+CREATE TABLE shopping_list(id SERIAL PRIMARY KEY,name VARCHAR(100) NOT NULL,date DATE NOT NULL,u_id INT ,FOREIGN KEY (u_id) REFERENCES user_list(id) );
+CREATE TABLE category(id SERIAL PRIMARY KEY ,name VARCHAR(50) UNIQUE NOT NULL,description VARCHAR(250));
+CREATE TABLE unit(
+id SERIAL PRIMARY KEY,name VARCHAR(20) UNIQUE NOT NULL,description VARCHAR(50)
+);
+CREATE TABLE item (
+id SERIAL PRIMARY KEY ,
+category_id INT,
+price MONEY NOT NULL,
+name VARCHAR(50) NOT NULL UNIQUE,
+description VARCHAR(100),
+unit_Id INT,
+quantity INT,
+FOREIGN KEY (category_id) REFERENCES category(id),
+FOREIGN KEY (unit_Id) REFERENCES unit(id)
+);
+CREATE TABLE audit_log(
+id SERIAL PRIMARY KEY,
+ref_id INT NOT NULL,
+ref_entity VARCHAR(50) NOT NULL,
+created_By VARCHAR(100) NOT NULL,
+created_At TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated_by VARCHAR(100),
+updated_at TIMESTAMP
+);
+CREATE TABLE list_have_item(id SERIAL PRIMARY KEY,list_id INT NOT NULL,item_id INT NOT NULL,
+FOREIGN KEY (list_id) REFERENCES shopping_list(id),
+FOREIGN KEY (item_id) REFERENCES item(id)
+
+);
